@@ -1,7 +1,13 @@
+import os
+import sys
 from typing import Union
-from app.text.routers import router as text_router
+
+# S'assurer que le dossier racine 'cors' est dans sys.path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from app.text.routers import router as text_router
 
 app = FastAPI(title="Text editor API")
 
@@ -14,3 +20,7 @@ app.add_middleware(
 )
 
 app.include_router(text_router)
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("app.main:app", host="127.0.0.1", port=8000, reload=True)
